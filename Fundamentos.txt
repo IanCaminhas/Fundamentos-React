@@ -1,0 +1,262 @@
+---------------------------------------Criando projeto------------------------------
+npx -> vai se encarregar de baixar uma dependência usada de forma temporária. Ou seja, não vai ser instalado 
+de forma global na máquina.
+
+npx create-react-app fundamentos-react
+deletar todos os arquivos de src.
+
+Criar um index.js na pasta src.
+
+startar aplicação: npm start
+-----------------------------------------------Exibindo String na tela---------------
+import 'react-dom'
+
+import ReactDom from 'react-dom' -> ReactDom vai renderizar alguma coisa na tela
+
+É nessa div que a aplicação será injetada:
+<div id="root"></div> //essa div fica em public/index.html
+
+****
+const el = document.getElementById('root')
+ReactDom.render('Olá React !!!!', el)
+
+Renderiza a página e mostra 'Olá React !!!!'
+****
+
+//inseri uma string a partir do ReactDom.render(
+ReactDom.render(
+    'Olá React !!!!', 
+    document.getElementById('root')
+)
+
+Para usar o react é necessário recorrer a uma sintaxe chamada jsx.
+
+------------------------------Conhecendo JSX---------------------------
+
+ReactDom.render(
+    '<div>Olá React!</div>', 
+    document.getElementById('root')
+)
+
+O navegador não lê '<div>Olá React!</div>' como div. O navegador acaba exibindo <div>Olá React!</div>.
+
+import ReactDom from 'react-dom'
+
+
+ReactDom.render(
+    <div>Olá React!</div>, 
+    document.getElementById('root')
+)
+
+<div>Olá React!</div> isso não é html é jsx kkkkkkkkk... Mas para funcionar é necessário importar: 
+import React from 'react'
+
+Entre crases não dá certo, mostra no nav: <div> <strong>Olá React!</strong> </div>
+ReactDom.render(
+    `<div>
+        <strong>Olá React!</strong>
+    </div>`, 
+    document.getElementById('root')
+)
+
+
+No final o código é convertido para js:
+ReactDom.render(
+    <div>
+        <strong>Olá React!</strong>
+    </div>, 
+    document.getElementById('root')
+)
+
+
+const tag =  <strong>Olá React!</strong>
+
+ReactDom.render(
+    <div>
+       {tag} //se gor tag, o navgeador vai mostrar tag
+    </div>, 
+    document.getElementById('root')
+)
+
+--------------------------------------carregando CSS----------------------
+Criando um index.css na pasta src
+
+o build procura o index.js em src para ser carregado.
+
+import './index.css'
+import blablabla from 'react-dom'
+import React from 'react'
+
+const tag =  <strong>Olá React!</strong>
+
+blablabla.render(
+    <div>
+       {tag}
+    </div>, 
+    document.getElementById('root')
+)
+
+import blablabla from 'react-dom'... O nome blablabla serve também. Pode ser qualquer nome.
+
+import abc from './index.css' //isso não é necessário, pois não vamos usar nenhuma propriedade de index.css 
+
+------------------------------Primeiro componente #1-------------------------
+
+Isso aqui não representa um código jsx. É js puro.
+function Primeiro(){
+    return 'Primeiro componente'
+}
+
+import Primeiro  from './componentes/basicos/Primeiro'
+O primeiro não precisa do .js... Primeiro.js ->não é preciso
+
+export default function Primeiro(){
+    return 'Primeiro componente'
+}
+
+import Primeiro  from './componentes/basicos/Primeiro'
+
+para ser acessado por meio do from, é necessário ter o export default function Primeiro()
+
+
+export default function Primeiro(){
+    return 'Primeiro componente'
+}
+
+import './index.css'
+import ReactDom from 'react-dom'
+import React from 'react'
+
+const tag =  <strong>Olá React!</strong>
+
+ReactDom.render(
+    <div>
+       {tag}
+    </div>, 
+    document.getElementById('root')
+)
+
+Agora como refrenciar um componente...  <Primeiro></Primeiro>
+
+import './index.css'
+import ReactDom from 'react-dom'
+import React from 'react'
+import Primeiro  from './componentes/basicos/Primeiro'
+
+const tag =  <strong>Olá React!</strong>
+
+ReactDom.render(
+    <div>
+       <Primeiro></Primeiro>
+    </div>, 
+    document.getElementById('root')
+)
+
+
+------------------------------Primeiro componente #2-------------------------
+Vamos colocar jsx no componente:
+
+Retire 
+export default function Primeiro(){
+    return 'Primeiro componente'
+}
+
+e coloque
+
+import React from 'react'
+
+export default function Primeiro(){
+    return <h2>Primeiro componente</h2>
+}
+
+
+O React que vai fazer as chamada javaScript <h2></h2>
+
+import React from 'react'
+
+export default function Primeiro(){
+    return <h2>Primeiro componente</h2>
+}
+
+
+Isso aqui dá erro, pois 
+return
+    <div>
+            <h2>Primeiro componente</h2>
+            <p>{msg}</p>
+    </div>
+    
+Para corrigir:
+
+
+return 
+    <div>
+            <h2>Primeiro componente</h2>
+            <p>{msg}</p>
+    </div>
+    
+ou ou ou....
+
+return (
+    <div>
+            <h2>Primeiro componente</h2>
+            <p>{msg}</p>
+    </div>
+    )
+
+-------------------------------------------Componente com propriedades-------------------
+Até agora criamos componentes funcionais, ou seja, componentes baseados em função.
+Os componentes podem ser baseados em classes e funções.
+mas vamos trabalhar com componentes funcionais.
+
+Para o react não faz diferença se for .js ou .jsx
+Para a IDE que faz diferença. Com .jsx, a IDE ajuda para completar dos comandos kkkkkk
+
+Se eu colocar uma div, ele vai completar:
+
+export default function(){
+    return <div></div> //auto-complete aqui
+}
+
+Posso fechar a tag assim: 
+<Primeiro></Primeiro> 
+ou        
+<Primeiro></>
+
+
+Uso o componente o máximo possível para ter reuso:
+
+ <ComParametro 
+            titulo="Situação do Aluno" 
+            aluno="Pedro" nota={9.3}/>
+ <ComParametro 
+             titulo="Situação do Aluno" 
+             aluno="Maria" nota={9.9}/>
+
+
+Posso pegar a propriedade(props) via const ou usar props.aluno:
+
+export default function ComParametro(props){
+    const titulo = props.titulo
+    return (
+    <div>
+        <h2>{titulo}</h2>
+        <p>
+            <strong>{props.aluno} </strong> 
+            tem nota 
+            <strong> {props.nota}</strong>
+        </p>
+
+    </div>
+    
+    )
+
+
+
+
+
+
+
+
+
+
